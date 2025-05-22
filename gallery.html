@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Галерея природы</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f8ff;
+            padding: 20px;
+        }
+        
+        h1 {
+            color: #2e8b57;
+        }
+        
+        .gallery-container {
+            position: relative;
+            width: 800px;
+            max-width: 100%;
+            margin: 20px auto;
+        }
+        
+        .gallery-image {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: none;
+        }
+        
+        .gallery-image.active {
+            display: block;
+        }
+        
+        .gallery-controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #3e8e41;
+        }
+        
+        .image-counter {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>Галерея природы</h1>
+    
+    <div class="gallery-container">
+        <img src="https://cdn.ingos.ru/images/blog/samye-vysokie-gory-v-mire.jpg" alt="Горы" class="gallery-image active">
+        <img src="https://cdnn21.img.ria.ru/images/07e4/0b/14/1585477611_0:0:3072:1728_1920x0_80_0_0_43c8af7e9f87b0c396599a40d6c01fd8.jpg" alt="Лес" class="gallery-image">
+        <img src="https://new-science.ru/wp-content/uploads/2021/10/655665-2.jpg" alt="Океан" class="gallery-image">
+        <img src="https://s0.rbk.ru/v6_top_pics/media/img/0/16/347204267699160.webp" alt="Пустыня" class="gallery-image">
+        <img src="https://cdn.ingos.ru/images/blog/samye-krasivye-vodopady-mira.jpg" alt="Водопад" class="gallery-image">
+    </div>
+    
+    <div class="gallery-controls">
+        <button id="prev-btn">Назад</button>
+        <button id="next-btn">Вперед</button>
+    </div>
+    
+    <div class="image-counter">
+        <span id="current-img">1</span> / <span id="total-imgs">5</span>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('.gallery-image');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const currentImgSpan = document.getElementById('current-img');
+            const totalImgsSpan = document.getElementById('total-imgs');
+            
+            let currentIndex = 0;
+            totalImgsSpan.textContent = images.length;
+            
+            function showImage(index) {
+                images.forEach(img => img.classList.remove('active'));
+                images[index].classList.add('active');
+                currentImgSpan.textContent = index + 1;
+                currentIndex = index;
+            }
+            
+            prevBtn.addEventListener('click', function() {
+                currentIndex = (currentIndex - 1 + images.length) % images.length;
+                showImage(currentIndex);
+            });
+            
+            nextBtn.addEventListener('click', function() {
+                currentIndex = (currentIndex + 1) % images.length;
+                showImage(currentIndex);
+            });
+            
+            // Можно добавить переключение клавишами клавиатуры
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowLeft') {
+                    prevBtn.click();
+                } else if (e.key === 'ArrowRight') {
+                    nextBtn.click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
